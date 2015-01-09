@@ -10,6 +10,10 @@ var ExampleTableView = Backbone.View.extend({
   el: '.table-container',
   template: _.template(TableTemplate),
 
+  events: {
+    'click th': 'onClickHead'
+  },
+
   initialize: function() {
     var data = [
       { name: 'Sencha', origin: 'Japan', brewTemperatur: '75' },
@@ -18,6 +22,7 @@ var ExampleTableView = Backbone.View.extend({
 
     // data
     this.teaCollection = new TeaCollection(data);   
+    this.listenTo(this.teaCollection, 'sort', this.render);
 
     // what fields to show in the table
     this.displayColumns = [
@@ -27,20 +32,23 @@ var ExampleTableView = Backbone.View.extend({
     ];
 
     this.table = new Table(); 
-    console.log('table', this.table);
     this.table.setUp({
       collection: this.teaCollection,
       columns:  this.displayColumns 
     });
 
-
     this.render();
+  },
+
+  onClickHead: function(evt) {
+    this.teaCollection.updateOrder(evt.currentTarget.dataset.fieldName);
   },
 
   render: function() {
     var context = {
       columns: this.table.getHeaders(),
-      rows: this.table.getRows()
+      rows: this.table.getRows(),
+      sort: this.teaCollection.getSortState()
     };
     var html = this.template(context);
     this.$el.html(html);
