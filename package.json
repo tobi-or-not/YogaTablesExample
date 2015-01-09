@@ -1,0 +1,22 @@
+{
+  "name": "table-lib-example",
+  "version": "0.0.0",
+  "description": "Example that shows how to use table-lib",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tobias Buchmann <mail@tobi-or-not.de>",
+  "license": "ISC",
+  "dependencies": {
+    "backbone": "^1.1.2",
+    "browserify": "^7.0.2",
+    "gulp": "^3.8.10",
+    "jquery-browserify": "^1.8.1",
+    "stringify": "^3.0.0",
+    "table-lib": "0.0.0",
+    "underscore": "^1.7.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0"
+  }
+}
