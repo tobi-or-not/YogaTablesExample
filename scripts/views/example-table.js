@@ -10,10 +10,6 @@ var ExampleTableView = Backbone.View.extend({
   el: '.table-container',
   template: _.template(TableTemplate),
 
-  events: {
-    'click th': 'onClickHead'
-  },
-
   initialize: function() {
     var data = [
       { name: 'Sencha', origin: 'Japan', brewTemperatur: '75' },
@@ -34,25 +30,19 @@ var ExampleTableView = Backbone.View.extend({
     this.table = new Table(); 
     this.table.setUp({
       collection: this.teaCollection,
-      columns:  this.displayColumns 
+      columns:  this.displayColumns,
+      view: this
     });
-
     this.render();
-  },
-
-  onClickHead: function(evt) {
-    this.teaCollection.updateOrder(evt.currentTarget.dataset.fieldName);
   },
 
   render: function() {
     var context = {
-      columns: this.table.getHeaders(),
-      rows: this.table.getRows(),
-      sort: this.teaCollection.getSortState()
+      table: this.table.toJSON()
     };
     var html = this.template(context);
     this.$el.html(html);
-  },
+  }
 
 });
 
