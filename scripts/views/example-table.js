@@ -3,7 +3,7 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 var TeaCollection = require('../collections/tea-collection');
-var Table = require('table-lib').Table;
+var Table = require('yoga-tables').Table;
 var TableTemplate = require('../templates/template.ejs');
 
 var ExampleTableView = Backbone.View.extend({
@@ -13,15 +13,23 @@ var ExampleTableView = Backbone.View.extend({
   initialize: function() {
     var data = [
       { name: 'Sencha', origin: 'Japan', brewTemperatur: '75' },
-      { name: 'Gunpowder', origin: 'China', brewTemperatur: 80 }
+      { name: 'Gunpowder', origin: 'China', brewTemperatur: 80 },
+      { name: undefined, origin: undefined, brewTemperatur: undefined },
+      { name: 'Pu-erh', origin: 'China', brewTemperatur: 100 },
+      { name: undefined, origin: undefined, brewTemperatur: undefined },
+      { name: 'Genmaicha', origin: 'Japan', brewTemperatur: '90' }
     ];
 
     // data
     this.teaCollection = new TeaCollection(data);   
     this.listenTo(this.teaCollection, 'sort', this.render);
 
+    var filterOn = ['name'];
+    this.teaCollection.filterOn = filterOn;
+
+
     // what fields to show in the table
-    this.displayColumns = [
+    var displayColumns = [
       'name',
       'origin',
       {property: 'brewTemperatur', type: 'number'}
@@ -30,10 +38,16 @@ var ExampleTableView = Backbone.View.extend({
     this.table = new Table(); 
     this.table.setUp({
       collection: this.teaCollection,
-      columns:  this.displayColumns,
+      columns: displayColumns,
       view: this
     });
     this.render();
+
+    this.listenTo(this.teaCollection, 'all', function(evt) { console.log('evt', evt);});
+    this.listenTo(this.teaCollection, 'update:filter', function() { 
+      this.render();
+      this.$el.find('input[name="filter"]').focus();
+    });
   },
 
   render: function() {

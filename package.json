@@ -14,9 +14,14 @@
     "gulp": "^3.8.10",
     "jquery-browserify": "^1.8.1",
     "stringify": "^3.0.0",
-    "table-lib": "0.0.0",
+    "yoga-tables": "0.0.0",
     "underscore": "^1.7.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.0.0"
+  },
+  "devDependencies": {
+    "gulp-notify": "^2.2.0",
+    "gutil": "^1.6.0",
+    "watchify": "^2.2.1"
   }
 }
